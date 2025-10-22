@@ -1,0 +1,119 @@
+<div class=" py-8 px-4">
+  <div class="max-w-6xl mx-auto">
+    
+    <h1 class="text-5xl font-bold text-center mb-8">
+      {{ title() }}
+    </h1>
+
+    <!-- Card de Cadastro -->
+    <p-card header="Cadastrar Nova Música" class="mb-6 w-[500px] flex mx-auto">
+        <div class="flex flex-col gap-3">
+          <label for="nome" class="font-semibold">
+            Nome da Música
+          </label>
+          <input 
+            pInputText 
+            id="nome" 
+            [(ngModel)]="nome" 
+            placeholder="I bet on losing dogs"
+            class="w-full"
+          />
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <label for="duracao" class="font-semibold">
+            Duração (minutos)
+          </label>
+          <p-inputNumber 
+            [(ngModel)]="duracao" 
+            inputId="duracao"
+            [min]="0"
+            [max]="999"
+            placeholder="3"
+            class="w-full"
+          />
+        </div>
+
+        <div class="flex items-center gap-3 ">
+          <p-checkbox 
+            [(ngModel)]="favorito" 
+            inputId="favorito"
+            [binary]="true"
+          />
+          <label for="favorito" class="font-semibold">
+            Marcar como favorita
+          </label>
+        </div>
+
+          <p-button 
+            label="Cadastrar Música" 
+            icon="pi pi-plus" 
+            (onClick)="cadastrarMusica()"
+            styleClass="w-full"
+            severity="success"
+          />
+    </p-card>
+
+    <!-- Tabela de Músicas -->
+    <p-card header="Minhas Músicas">
+      <p-table 
+        [value]="musicas()" 
+        [tableStyle]="{ 'min-width': '100%' }"
+        class="p-datatable-striped"
+      >
+        <ng-template pTemplate="header">
+          <tr class="bg-blue-50">
+            <th class="text-left font-bold">#</th>
+            <th class="text-left font-bold">Nome</th>
+            <th class="text-left font-bold">Duração</th>
+            <th class="text-center font-bold ">Favorita</th>
+            <th class="text-center font-bold">Ações</th>
+          </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-musica let-rowIndex="rowIndex">
+          <tr class="hover:bg-blue-50 transition-colors">
+            <td class="font-medium">{{ rowIndex + 1 }}</td>
+            <td class="font-semibold ">{{ musica.nome }}</td>
+            <td>{{ musica.duracao }} min</td>
+            <td class="text-center">
+              <button 
+                (click)="toggleFavorito(musica.id)"
+                class="transition-transform hover:scale-110"
+              >
+                <i 
+                  [class]="musica.favorito ? 'pi pi-star-fill text-yellow-500' : 'pi pi-star text-gray-400'" 
+                  class="text-2xl cursor-pointer"
+                ></i>
+              </button>
+            </td>
+            <td class="text-center">
+              <p-button 
+                icon="pi pi-trash" 
+                severity="danger" 
+                [text]="true"
+                [rounded]="true"
+                (onClick)="removerMusica(musica.id)"
+                pTooltip="Remover música"
+                tooltipPosition="top"
+              />
+            </td>
+          </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="5" class="text-center py-12">
+              <p class="font-medium ">
+                Nenhuma música cadastrada ainda
+              </p>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+
+  </div>
+</div>
+
+<router-outlet />
