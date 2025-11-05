@@ -1,0 +1,56 @@
+<p-card header="Cadastrar Nova Música" styleClass="mb-6 shadow-lg">
+  <div class="flex flex-col gap-4 p-4">
+    
+    <div class="flex flex-col gap-2">
+      <label for="nome" class="font-semibold text-gray-700">
+        Nome da Música
+      </label>
+      <input 
+        pInputText 
+        id="nome" 
+        [(ngModel)]="nome" 
+        placeholder="I bet on losing dogs"
+        class="w-full"
+      />
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="duracao" class="font-semibold text-gray-700">
+        Duração (minutos)
+      </label>
+      <p-inputNumber 
+        [(ngModel)]="duracao" 
+        inputId="duracao"
+        [min]="0"
+        [max]="999"
+        placeholder="3"
+        [showButtons]="true"
+        buttonLayout="horizontal"
+        spinnerMode="horizontal"
+        incrementButtonIcon="pi pi-plus"
+        decrementButtonIcon="pi pi-minus"
+        styleClass="w-full"
+      />
+    </div>
+
+    <div class="flex items-center gap-3">
+      <p-checkbox 
+        [(ngModel)]="favorito" 
+        inputId="favorito"
+        [binary]="true"
+      />
+      <label for="favorito" class="font-semibold text-gray-700">
+        Marcar como favorita
+      </label>
+    </div>
+
+    <p-button 
+      label="Cadastrar Música" 
+      icon="pi pi-plus" 
+      (onClick)="cadastrarMusica()"
+      styleClass="w-full"
+      severity="success"
+    />
+    
+  </div>
+</p-card>
