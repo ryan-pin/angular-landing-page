@@ -1,0 +1,30 @@
+<div class="min-h-screen bg-linear-to-br from-purple-50 to-blue-50 py-8 px-4">
+  <div class="max-w-6xl mx-auto">
+    
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-5xl font-bold text-gray-800">
+        🎵 Playlist de Músicas
+      </h1>
+      <a routerLink="/favoritos">
+        <p-button 
+          label="Ver Favoritos" 
+          icon="pi pi-star-fill" 
+          severity="warn"
+        />
+      </a>
+    </div>
+
+    <div class="max-w-2xl mx-auto mb-6">
+      <app-musica-form 
+        (musicaCadastrada)="onMusicaCadastrada($event)"
+      />
+    </div>
+
+    <app-musica-list 
+      [musicas]="musicas()"
+      (musicaRemovida)="onMusicaRemovida($event)"
+      (favoritoAlterado)="onFavoritoAlterado($event)"
+    />
+
+  </div>
+</div>
