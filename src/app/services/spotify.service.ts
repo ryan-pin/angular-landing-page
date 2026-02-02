@@ -23,14 +23,13 @@ export class SpotifyService {
   private refreshToken = signal<string | null>(null);
   private currentUser = signal<SpotifyUser | null>(null);
 
-
   isAuthenticated = computed(() => !!this.accessToken());
   user = computed(() => this.currentUser());
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
   ) {
     // Verificar se há tokens salvos no localStorage apenas no navegador
     if (isPlatformBrowser(this.platformId)) {
@@ -85,7 +84,7 @@ export class SpotifyService {
         catchError((error) => {
           console.error('Erro ao trocar código por token:', error);
           return throwError(() => error);
-        })
+        }),
       );
   }
 
@@ -112,6 +111,31 @@ export class SpotifyService {
         console.error('Erro ao buscar usuário:', error);
       },
     });
+  }
+
+  /**
+   * Login alternativo - salva um token mock para fazer login sem verificações
+   * Usado para criar conta através do formulário
+   */
+  setToken(mockToken: string, userName: string): void {
+    this.accessToken.set(mockToken);
+    this.refreshToken.set(mockToken);
+
+    // Salvar no localStorage apenas no navegador
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('spotify_access_token', mockToken);
+      localStorage.setItem('spotify_refresh_token', mockToken);
+    }
+
+    // Criar um usuário mock
+    const mockUser: SpotifyUser = {
+      id: `user_${Date.now()}`,
+      display_name: userName,
+      email: `${userName.toLowerCase().replace(/\s/g, '')}@example.com`,
+      images: [],
+    };
+
+    this.currentUser.set(mockUser);
   }
 
   /**
@@ -152,7 +176,7 @@ export class SpotifyService {
       catchError((error) => {
         console.error('Erro ao buscar usuário:', error);
         return throwError(() => error);
-      })
+      }),
     );
   }
 
@@ -168,13 +192,13 @@ export class SpotifyService {
     return this.http
       .get<SpotifyRecentTracksResponse>(
         `https://api.spotify.com/v1/me/player/recently-played?${params.toString()}`,
-        { headers }
+        { headers },
       )
       .pipe(
         catchError((error) => {
           console.error('Erro ao buscar músicas recentes:', error);
           return throwError(() => error);
-        })
+        }),
       );
   }
 

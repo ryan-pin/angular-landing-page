@@ -5,6 +5,7 @@ import { FavoritosComponent } from './pages/favoritos/favoritos.component';
 import { ListaMusicasComponent } from './pages/lista-musicas/lista-musicas.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MusicasOuvidasComponent } from './pages/musicas-ouvidas/musicas-ouvidas.component';
+import { SignupComponent } from './pages/signup/signup.component';
 
 export const routes: Routes = [
   {
@@ -16,6 +17,11 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     title: 'Login - Spotify Integration',
+  },
+  {
+    path: 'signup',
+    component: SignupComponent,
+    title: 'Criar Conta - Spotify Integration',
   },
   {
     path: 'callback',
